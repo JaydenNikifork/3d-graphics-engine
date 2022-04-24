@@ -1,4 +1,5 @@
 import java.awt.Graphics;
+import java.awt.Color;
 
 public class Tri {
     public Vec p1;
@@ -7,6 +8,7 @@ public class Tri {
     public Vec line1;
     public Vec line2;
     public Vec line3;
+    private int color;
 
 
     public Tri(Vec p1, Vec p2, Vec p3) {
@@ -27,7 +29,13 @@ public class Tri {
 
 
     public void draw(Graphics g) {
-        g.drawPolygon(new int[] {(int) p1.x + WindowConfig.SCREEN_WIDTH/2, (int) p2.x + WindowConfig.SCREEN_WIDTH/2, (int) p3.x + WindowConfig.SCREEN_WIDTH/2},
+        color = (int) Math.abs(new Vec(p1.x, p1.y, p1.z).normalize().dotProd(new Vec(
+            line1.y * line2.z - line1.z * line2.y,
+            line1.z * line2.x - line1.x * line2.z,
+            line1.x * line2.y - line1.y * line2.x
+        ).normalize()) * 150) + 50;
+        g.setColor(new Color(color, color, color));
+        g.fillPolygon(new int[] {(int) p1.x + WindowConfig.SCREEN_WIDTH/2, (int) p2.x + WindowConfig.SCREEN_WIDTH/2, (int) p3.x + WindowConfig.SCREEN_WIDTH/2},
                       new int[] {(int) p1.y + WindowConfig.SCREEN_HEIGHT/2, (int) p2.y + WindowConfig.SCREEN_HEIGHT/2, (int) p3.y + WindowConfig.SCREEN_HEIGHT/2}, 3);
     }
 
